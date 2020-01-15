@@ -3,11 +3,13 @@
 var express = require('express')
     ,app = express()
     ,routes = require('../app/routes')
+    ,cors = require('cors')
     ,path =  require('path')
     ,bodyParser = require('body-parser');
 
 app.set('clientPath', path.join(__dirname, '../..', 'client'));
 console.log(app.get('clientPath'));
+app.use(cors())
 app.use(express.static(app.get('clientPath')));
 app.use(bodyParser.json());
 
