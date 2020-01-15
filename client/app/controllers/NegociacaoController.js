@@ -58,12 +58,13 @@ class NegociacaoController {
 
     importarNegociacoes() {
 
-        const promise = this._service.obterNegociacoesDaSemana()
-            .then(negociacoes => {
-                negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
-                this._mensagem.texto = 'Negociações importadas com sucesso';
-            })
-            .catch(err => this._mensagem.texto = err);
+        Promisse.all([
+            this._service.obtemNegociacoesDaSemana(),
+            this._service.obtemNegociacoesDaSemanaAnterior(),
+            this._service.obtemNegociacoesDaSemanaRetrasada()
+        ])
+        .then(periodo => console.log(periodo))
+        .catch(err => this._mensagem.texto = err);
     }
 
     _limpaFormulario() {
