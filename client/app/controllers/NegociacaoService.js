@@ -9,12 +9,8 @@ class NegociacaoService {
 
         return this._http.get('negociacoes/semana')
             .then(
-                dados => {
-
-                    const negociacoes = dados.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor));
-
-                    return negociacoes;
-                },
+                dados => dados.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor))
+                ,
                 err => {
 
                     throw new Error('Não foi possível obter as negociações');
@@ -26,12 +22,8 @@ class NegociacaoService {
 
         return this._http.get('negociacoes/anterior')
             .then(
-                dados => {
-
-                    const negociacoes = dados.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor));
-                    
-                    return negociacoes;
-                },
+                dados => dados.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor))
+                ,
                 err => {
 
                     throw new Error('Não foi possível obter as negociações da semana anterior');
@@ -43,12 +35,8 @@ class NegociacaoService {
 
         return this._http.get('negociacoes/retrasada')
             .then(
-                dados => {
-
-                    const negociacoes = dados.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor));
-                    
-                    return negociacoes;
-                },
+                dados => dados.map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor))
+                ,
                 err => {
 
                     throw new Error('Não foi possível obter as negociações da semana anterior');
@@ -59,14 +47,14 @@ class NegociacaoService {
     obtemNegociacoesDoPeriodo() {
 
         return Promise.all([
-            this._service.obtemNegociacoesDaSemana(),
-            this._service.obtemNegociacoesDaSemanaAnterior(),
-            this._service.obtemNegociacoesDaSemanaRetrasada()
+            this.obtemNegociacoesDaSemana(),
+            this.obtemNegociacoesDaSemanaAnterior(),
+            this.obtemNegociacoesDaSemanaRetrasada()
         ])
-        .then(periodo => {
-
-            return periodo.reduce((novoArray, item) => novoArray.concat(item), []);
-        })
+        .then(periodo => periodo
+                .reduce((novoArray, item) => novoArray.concat(item), [])
+                .sort((a, b) => b.data.getTime() - a.data.getTime())
+        )
         .catch(err => {
 
             console.log(err);
