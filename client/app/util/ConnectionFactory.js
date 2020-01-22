@@ -3,6 +3,8 @@ const ConnectionFactory = (() => {
     const stores = ['negociacoes'];
 
     let connection = null;
+
+    let close = null;
     
     return class ConnectionFactory {
     
@@ -30,6 +32,13 @@ const ConnectionFactory = (() => {
                 openRequest.onsuccess = e => {
     
                     connection = e.target.result;
+
+                    close = connection.close.bind(connection);
+
+                    connection.close = () => {
+
+                        throw new Error('Você não pode fechar diretamente a conexão');
+                    };
                     resolve(e.target.result);
                 };
     
@@ -50,6 +59,13 @@ const ConnectionFactory = (() => {
     
                 connection.createObjectStore(store, { autoIncrement: true });
             });
+        }
+
+        static closeConnection() {
+
+            if(connection) {
+                close();
+            }
         }
     }
 })();
