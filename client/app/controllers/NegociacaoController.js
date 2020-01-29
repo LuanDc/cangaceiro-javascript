@@ -24,16 +24,33 @@ class NegociacaoController {
         this._mensagemView = new MensagemView('#mensagemView');
 
         this._service = new NegociacaoService();
+
+        DaoFactory
+            .getNegociacaoDao()
+            .then(dao => dao.listaTodos())
+            .then(negociacoes =>
+                negociacoes.forEach(negociacao =>
+                    this._negociacoes.adiciona(negociacao)))
+            .catch(err => this._mensagem.texto = err);
     }
 
     adiciona(event) {
 
         try {
-
             event.preventDefault();
-            this._negociacoes.adiciona(this._criaNegociacao());
-            this._mensagem.texto = 'Negociação adicionada com sucesso';
-            this._limpaFormulario();
+
+            const negociacao = this._criaNegociacao();
+
+            DaoFactory
+                .getNegociacaoDao()
+                .then(dao => dao.adiciona(negociacao))
+                .then(() => {
+
+                    this._negociacoes.adiciona(negociacao);
+                    this._mensagem.texto = 'Negociação adicionada com sucesso';
+                    this._limpaFormulario();
+                })
+                .catch(err => this._mensagem.texto = err);
         }
         catch(err) {
 
@@ -81,6 +98,8 @@ class NegociacaoController {
     }
 
     _criaNegociacao() {
+
+        console.log('para data', DateConverter.paraData(this._inputData.value));
 
         return new Negociacao(
             DateConverter.paraData(this._inputData.value),
