@@ -1,31 +1,42 @@
-class HttpService {
+System.register([], function (_export, _context) {
+    "use strict";
 
-    get(url) {
+    return {
+        setters: [],
+        execute: function () {
+            class HttpService {
 
-        return new Promise((resolve, reject) => {
+                get(url) {
 
-            const xhr = new XMLHttpRequest();
+                    return new Promise((resolve, reject) => {
 
-            xhr.open('GET', url);
-    
-            xhr.onreadystatechange = () => {
-    
-                if(xhr.readyState == 4) {
-    
-                    if(xhr.status == 200) {
-    
-                        resolve(JSON.parse(xhr.responseText));
-                    }
-                    else {
-    
-                        console.log(xhr.responseText);
-    
-                        reject(xhr.responseText);
-                    }
+                        const xhr = new XMLHttpRequest();
+
+                        xhr.open('GET', url);
+
+                        xhr.onreadystatechange = () => {
+
+                            if (xhr.readyState == 4) {
+
+                                if (xhr.status == 200) {
+
+                                    resolve(JSON.parse(xhr.responseText));
+                                } else {
+
+                                    console.log(xhr.responseText);
+
+                                    reject(xhr.responseText);
+                                }
+                            }
+                        };
+
+                        xhr.send();
+                    });
                 }
             }
 
-            xhr.send();
-        });
-    }
-}
+            _export('HttpService', HttpService);
+        }
+    };
+});
+//# sourceMappingURL=HttpService.js.map

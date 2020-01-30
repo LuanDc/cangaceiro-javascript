@@ -1,8 +1,20 @@
-class ApplicationException extends Error {
+System.register([], function (_export, _context) {
+    "use strict";
 
-    constructor(msg = '') {
+    return {
+        setters: [],
+        execute: function () {
+            class ApplicationException extends Error {
 
-        super(msg);
-        this.name = this.constructor.name;
-    }
-}
+                constructor(msg = '') {
+
+                    super(msg);
+                    this.name = this.constructor.name;
+                }
+            }
+
+            _export('ApplicationException', ApplicationException);
+        }
+    };
+});
+//# sourceMappingURL=ApplicationException.js.map

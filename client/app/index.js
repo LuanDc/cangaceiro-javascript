@@ -1,37 +1,45 @@
-var campos = [
-    document.querySelector("#data"),
-    document.querySelector('#valor'),
-    document.querySelector('#quantidade')
-];
+System.register([], function (_export, _context) {
+    "use strict";
 
-console.log(campos);
+    var campos, tbody;
+    return {
+        setters: [],
+        execute: function () {
+            campos = [document.querySelector("#data"), document.querySelector('#valor'), document.querySelector('#quantidade')];
 
-var tbody = document.querySelector('table tbody');
 
-document.querySelector('.form')
-    .addEventListener('submit', function(event) {
-        event.preventDefault();
+            console.log(campos);
 
-        var tr = document.createElement('tr');
+            tbody = document.querySelector('table tbody');
 
-        campos.forEach(function(campo) {
-            var td = document.createElement(td);
 
-            td.textContent = campo.value;
+            document.querySelector('.form').addEventListener('submit', function (event) {
+                event.preventDefault();
 
-            tr.appendChild(td);
-        });
+                var tr = document.createElement('tr');
 
-        var tdVolume = document.createElement('td');
+                campos.forEach(function (campo) {
+                    var td = document.createElement(td);
 
-        tdVolume.textContent = campos[1].value * campos[2].value;
+                    td.textContent = campo.value;
 
-        tr.appendChild(tdVolume);
+                    tr.appendChild(td);
+                });
 
-        tbody.appendChild(tr);
+                var tdVolume = document.createElement('td');
 
-        campos[0].value = '';
-        campos[1].value = 1;
-        campos[2].value = 0;
-        campos[0].focus();
-    });
+                tdVolume.textContent = campos[1].value * campos[2].value;
+
+                tr.appendChild(tdVolume);
+
+                tbody.appendChild(tr);
+
+                campos[0].value = '';
+                campos[1].value = 1;
+                campos[2].value = 0;
+                campos[0].focus();
+            });
+        }
+    };
+});
+//# sourceMappingURL=index.js.map

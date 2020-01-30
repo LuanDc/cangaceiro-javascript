@@ -1,7 +1,22 @@
-class DataInvalidaException extends ApplicationException {
+System.register(['../../util/ApplicationException.js'], function (_export, _context) {
+    "use strict";
 
-    constructor() {
+    var ApplicationException;
+    return {
+        setters: [function (_utilApplicationExceptionJs) {
+            ApplicationException = _utilApplicationExceptionJs.ApplicationException;
+        }],
+        execute: function () {
+            class DataInvalidaException extends ApplicationException {
 
-        super('A data deve estar no formato dd/mm/aaaa');
-    }
-}
+                constructor() {
+
+                    super('A data deve estar no formato dd/mm/aaaa');
+                }
+            }
+
+            _export('DataInvalidaException', DataInvalidaException);
+        }
+    };
+});
+//# sourceMappingURL=DataInvalidaException.js.map
