@@ -1,28 +1,51 @@
-System.register(['../domain/negociacao/Negociacoes.js', '../ui/views/NegociacoesView.js', '../ui/models/Mensagem.js', '../ui/views/MensagemView.js', '../domain/negociacao/NegociacaoService.js', '../util/DaoFactory.js', '../ui/converters/DataInvalidaException.js', '../domain/negociacao/Negociacao.js', '../util/Bind.js', '../ui/converters/DateConverter.js'], function (_export, _context) {
+System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], function (_export, _context) {
     "use strict";
 
-    var Negociacoes, NegociacoesView, Mensagem, MensagemView, NegociacaoService, getNegociacaoDao, DataInvalidaException, Negociacao, Bind, DateConverter;
+    var Negociacoes, NegociacaoService, Negociacao, NegociacoesView, MensagemView, Mensagem, DataInvalidaException, DateConverter, getNegociacaoDao, Bind;
+
+    function _asyncToGenerator(fn) {
+        return function () {
+            var gen = fn.apply(this, arguments);
+            return new Promise(function (resolve, reject) {
+                function step(key, arg) {
+                    try {
+                        var info = gen[key](arg);
+                        var value = info.value;
+                    } catch (error) {
+                        reject(error);
+                        return;
+                    }
+
+                    if (info.done) {
+                        resolve(value);
+                    } else {
+                        return Promise.resolve(value).then(function (value) {
+                            step("next", value);
+                        }, function (err) {
+                            step("throw", err);
+                        });
+                    }
+                }
+
+                return step("next");
+            });
+        };
+    }
+
     return {
-        setters: [function (_domainNegociacaoNegociacoesJs) {
-            Negociacoes = _domainNegociacaoNegociacoesJs.Negociacoes;
-        }, function (_uiViewsNegociacoesViewJs) {
-            NegociacoesView = _uiViewsNegociacoesViewJs.NegociacoesView;
-        }, function (_uiModelsMensagemJs) {
-            Mensagem = _uiModelsMensagemJs.Mensagem;
-        }, function (_uiViewsMensagemViewJs) {
-            MensagemView = _uiViewsMensagemViewJs.MensagemView;
-        }, function (_domainNegociacaoNegociacaoServiceJs) {
-            NegociacaoService = _domainNegociacaoNegociacaoServiceJs.NegociacaoService;
-        }, function (_utilDaoFactoryJs) {
-            getNegociacaoDao = _utilDaoFactoryJs.getNegociacaoDao;
-        }, function (_uiConvertersDataInvalidaExceptionJs) {
-            DataInvalidaException = _uiConvertersDataInvalidaExceptionJs.DataInvalidaException;
-        }, function (_domainNegociacaoNegociacaoJs) {
-            Negociacao = _domainNegociacaoNegociacaoJs.Negociacao;
-        }, function (_utilBindJs) {
-            Bind = _utilBindJs.Bind;
-        }, function (_uiConvertersDateConverterJs) {
-            DateConverter = _uiConvertersDateConverterJs.DateConverter;
+        setters: [function (_domainIndexJs) {
+            Negociacoes = _domainIndexJs.Negociacoes;
+            NegociacaoService = _domainIndexJs.NegociacaoService;
+            Negociacao = _domainIndexJs.Negociacao;
+        }, function (_uiIndexJs) {
+            NegociacoesView = _uiIndexJs.NegociacoesView;
+            MensagemView = _uiIndexJs.MensagemView;
+            Mensagem = _uiIndexJs.Mensagem;
+            DataInvalidaException = _uiIndexJs.DataInvalidaException;
+            DateConverter = _uiIndexJs.DateConverter;
+        }, function (_utilIndexJs) {
+            getNegociacaoDao = _utilIndexJs.getNegociacaoDao;
+            Bind = _utilIndexJs.Bind;
         }],
         execute: function () {
             class NegociacaoController {
@@ -48,57 +71,99 @@ System.register(['../domain/negociacao/Negociacoes.js', '../ui/views/Negociacoes
                 }
 
                 _init() {
+                    var _this = this;
 
-                    getNegociacaoDao().then(dao => dao.listaTodos()).then(negociacoes => negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao))).catch(err => this._mensagem.texto = err);
+                    return _asyncToGenerator(function* () {
+
+                        try {
+
+                            const dao = yield getNegociacaoDao();
+                            const negociacoes = yield dao.listaTodos();
+                            negociacoes.forEach(function (negociacao) {
+                                return _this._negociacoes.adiciona(negociacao);
+                            });
+                        } catch (err) {
+
+                            _this._mensagem.texto = err.message;
+                        }
+                    })();
                 }
 
                 adiciona(event) {
+                    var _this2 = this;
 
-                    try {
-                        event.preventDefault();
+                    return _asyncToGenerator(function* () {
 
-                        const negociacao = this._criaNegociacao();
+                        try {
 
-                        getNegociacaoDao().then(dao => dao.adiciona(negociacao)).then(() => {
+                            event.preventDefault();
+                            const negociacao = _this2._criaNegociacao();
 
-                            this._negociacoes.adiciona(negociacao);
-                            this._mensagem.texto = 'Negociação adicionada com sucesso';
-                            this._limpaFormulario();
-                        }).catch(err => this._mensagem.texto = err);
-                    } catch (err) {
+                            const dao = yield getNegociacaoDao();
+                            yield dao.adiciona(negociacao);
+                            _this2._negociacoes.adiciona(negociacao);
+                            _this2._mensagem.texto = 'Negociação adicionada com sucesso';
 
-                        console.log(err);
-                        console.log(err.stack);
+                            _this2._limpaFormulario;
+                        } catch (err) {
 
-                        if (err instanceof DataInvalidaException) {
+                            console.log(err);
+                            console.log(err.stack);
 
-                            this._mensagem.texto = err.message;
-                        } else {
+                            if (err instanceof DataInvalidaException) {
 
-                            this._mensagem.texto = 'Um erro não esperado aconteceu. Entre em contato com o suporte';
+                                _this2._mensagem.texto = err.message;
+                            } else {
+
+                                _this2._mensagem.texto = 'Um erro não esperado aconteceu. Entre em contato com o suporte';
+                            }
                         }
-                    }
+                    })();
                 }
 
                 apaga() {
+                    var _this3 = this;
 
-                    getNegociacaoDao().then(dao => dao.apagaTodos()).then(() => {
+                    return _asyncToGenerator(function* () {
 
-                        this._negociacoes.esvazia();
-                        this._mensagem.texto = 'Negociações apagadas com sucesso';
-                    }).catch(err => this._mensagem.texto = err);
+                        try {
 
-                    this._mensagem.texto = 'Negociações apagadas com sucesso';
+                            const dao = yield getNegociacaoDao();
+                            yield dao.apagaTodos();
+                            _this3._negociacoes.esvazia();
+                            _this3._mensagem.texto = 'Negociações apagadas com sucesso';
+                        } catch (err) {
+
+                            _this3._mensagem.texto = err.message;
+                        }
+
+                        _this3._mensagem.texto = 'Negociações apagadas com sucesso';
+                    })();
                 }
 
                 importarNegociacoes() {
+                    var _this4 = this;
 
-                    this._service.obtemNegociacoesDoPeriodo().then(negociacoes => {
+                    return _asyncToGenerator(function* () {
 
-                        negociacoes.filter(novaNegociacao => !this._negociacoes.paraArray().some(negociacaoExistente => novaNegociacao.equals(negociacaoExistente))).forEach(negociacao => this._negociacoes.adiciona(negociacao));
+                        try {
 
-                        this._mensagem.texto = 'Negociações do período importadas com sucesso';
-                    }).catch(err => this._mensagem.texto = err);
+                            const negociacoes = yield _this4._service.obtemNegociacoesDoPeriodo();
+                            console.log(negociacoes);
+                            negociacoes.filter(function (novaNegociacao) {
+                                return !_this4._negociacoes.paraArray().some(function (negociacaoExistente) {
+                                    return novaNegociacao.equals(negociacaoExistente);
+                                });
+                            }).forEach(function (negociacao) {
+                                return _this4._negociacoes.adiciona(negociacao);
+                            });
+
+                            _this4._mensagem.texto = 'Negociações do período importadascom sucesso';
+                        } catch (err) {
+
+                            _this4._mensagem.texto = err.message;
+                        }
+                    })();
                 }
 
                 _limpaFormulario() {
