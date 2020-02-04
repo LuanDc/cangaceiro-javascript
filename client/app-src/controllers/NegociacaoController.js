@@ -1,15 +1,13 @@
 import { Negociacoes, NegociacaoService, Negociacao} from '../domain/index.js';
 import { NegociacoesView, MensagemView, Mensagem, DateConverter } from '../ui/index.js';
-import { getNegociacaoDao, Bind, getExceptionMessage, debounce } from '../util/index.js';
+import { getNegociacaoDao, Bind, getMessageException, debounce, controller, bindEvent } from '../util/index.js';
 
+@controller('#data', '#quantidade', '#valor')
 export class NegociacaoController {
 
-    constructor() {
+    constructor(_inputData, _inputQuantidade, _inputValor) {
 
-        const $ = document.querySelector.bind(document);
-        this._inputData = $('#data');
-        this._inputQuantidade = $('#quantidade');
-        this._inputValor = $('#valor');
+        Object.assign(this, { _inputData, _inputQuantidade, _inputValor });
 
         this._negociacoes = new Bind(
             new Negociacoes(),
@@ -46,6 +44,8 @@ export class NegociacaoController {
         }
     }
 
+    @bindEvent('submit', '.form')
+    @debounce()
     async adiciona(event) {
 
         try {
@@ -66,6 +66,7 @@ export class NegociacaoController {
         }
     }
 
+    @bindEvent('click', '#botao-apaga')
     async apaga() {
 
         try {
@@ -83,6 +84,7 @@ export class NegociacaoController {
         this._mensagem.texto = 'Negociações apagadas com sucesso';
     }
 
+    @bindEvent('click', '#botao-importa')
     @debounce()
     async importarNegociacoes() {
 

@@ -1,7 +1,7 @@
 System.register([], function (_export, _context) {
     "use strict";
 
-    function debouce(milissegundos = 500) {
+    function debounce(milissegundos = 500) {
 
         return function (target, key, descriptor) {
 
@@ -9,8 +9,10 @@ System.register([], function (_export, _context) {
 
             let timer = 0;
             descriptor.value = function (...args) {
-                clearTimeout(timer);
 
+                if (event) event.preventDefault();
+
+                clearInterval(timer);
                 timer = setTimeout(() => metodoOriginal.apply(this, args), milissegundos);
             };
 
@@ -18,7 +20,7 @@ System.register([], function (_export, _context) {
         };
     }
 
-    _export("debouce", debouce);
+    _export("debounce", debounce);
 
     return {
         setters: [],

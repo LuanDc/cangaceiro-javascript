@@ -1,4 +1,4 @@
-export function debouce(milissegundos = 500) {
+export function debounce(milissegundos = 500) {
 
     return function(target, key, descriptor) {
 
@@ -6,8 +6,10 @@ export function debouce(milissegundos = 500) {
 
         let timer = 0;
         descriptor.value = function(...args) {
-            clearTimeout(timer);
 
+            if(event) event.preventDefault();
+
+            clearInterval(timer);
             timer = setTimeout(() => metodoOriginal.apply(this, args), milissegundos);
         }
 

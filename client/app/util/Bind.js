@@ -7,7 +7,7 @@ System.register(['./ProxyFactory.js'], function (_export, _context) {
             ProxyFactory = _ProxyFactoryJs.ProxyFactory;
         }],
         execute: function () {
-            class Bind {
+            let Bind = class Bind {
 
                 constructor(model, view, ...props) {
 
@@ -19,7 +19,7 @@ System.register(['./ProxyFactory.js'], function (_export, _context) {
 
                     return proxy;
                 }
-            }
+            };
 
             _export('Bind', Bind);
         }

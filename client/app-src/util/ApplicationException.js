@@ -9,9 +9,10 @@ export class ApplicationException extends Error {
 
 const exception = ApplicationException;
 
-export function ApplicationException(err) {
+export function isApplicationException(err) {
 
-    return err instanceof exception || Object.getPrototypeOf(err) instanceof exception;
+    return err instanceof exception || 
+        Object.getPrototypeOf(err) instanceof exception;
 }
 
 export function getExceptionMessage(err) {

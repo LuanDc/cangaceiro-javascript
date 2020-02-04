@@ -5,3 +5,6 @@ export * from './ApplicationException.js';
 export * from './HttpService.js';
 export * from './ProxyFactory.js';
 export * from './decorators/Debounce.js';
+export * from './decorators/Controller.js';
+export * from './Obrigatorio.js';
+export * from './decorators/BindEvent.js';
