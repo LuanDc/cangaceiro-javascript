@@ -1,6 +1,6 @@
-import { Negociacoes, NegociacaoService, Negociacao} from '../domain/index.js';
-import { NegociacoesView, MensagemView, Mensagem, DateConverter } from '../ui/index.js';
-import { getNegociacaoDao, Bind, getMessageException, debounce, controller, bindEvent } from '../util/index.js';
+import { Negociacoes, Negociacao} from '../domain';
+import { NegociacoesView, MensagemView, Mensagem, DateConverter } from '../ui/index';
+import { getNegociacaoDao, Bind, getExceptionMessage, debounce, controller, bindEvent } from '../util/index';
 
 @controller('#data', '#quantidade', '#valor')
 export class NegociacaoController {
@@ -24,8 +24,6 @@ export class NegociacaoController {
         );
 
         this._mensagemView = new MensagemView('#mensagemView');
-
-        this._service = new NegociacaoService();
 
         this._init();
     }
@@ -90,7 +88,11 @@ export class NegociacaoController {
 
         try {
 
-            const negociacoes = await this._service.obtemNegociacoesDoPeriodo();
+            const { NegociacaoService } = await import('../domain/negociacao/NegociacaoService');
+
+            const service = new NegociacaoService();
+
+            const negociacoes = await service.obtemNegociacoesDoPeriodo();
             
             negociacoes.filter(novaNegociacao => !this._negociacoes.paraArray().some(negociacaoExistente =>
                 novaNegociacao.equals(negociacaoExistente)))
