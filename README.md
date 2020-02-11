@@ -31,7 +31,7 @@ Agora digite o comando em seu terminal.
 
 **Cliente**
 
-Navegue até a pasta server
+Navegue até a pasta client
 
 ```
     cd client
