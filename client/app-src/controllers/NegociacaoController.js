@@ -98,7 +98,7 @@ export class NegociacaoController {
                 novaNegociacao.equals(negociacaoExistente)))
                     .forEach(negociacao => this._negociacoes.adiciona(negociacao));
 
-            this._mensagem.texto = 'Negociações do período importadascom sucesso';
+            this._mensagem.texto = 'Negociações do período importadas com sucesso';
         }
         catch(err) {
 
